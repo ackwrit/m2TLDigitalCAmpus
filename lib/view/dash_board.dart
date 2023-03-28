@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m2tldigitalcampus/controller/my_drawer.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _DashBoardState extends State<DashBoard> {
         width: MediaQuery.of(context).size.width * 0.5,
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
-        child: Text("je suis dans le drawer"),
+        child: const MyDrawer(),
       ),
       appBar: AppBar(),
       body: bodyPage(currentPage),
