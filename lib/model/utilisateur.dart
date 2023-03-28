@@ -17,6 +17,7 @@ class Utilisateur {
 
   Utilisateur.empty(){
       uid = "";
+      email = "";
   }
 
   Utilisateur(DocumentSnapshot snapshot){

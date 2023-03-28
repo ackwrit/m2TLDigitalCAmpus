@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m2tldigitalcampus/controller/firebase_manager.dart';
 import 'package:m2tldigitalcampus/view/dash_board.dart';
 
 class LoginPage extends StatefulWidget {
@@ -111,11 +112,39 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
               onPressed: (){
                 //connexion
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context){
-                    return const DashBoard();
+                if(selection[0]){
+                  FirebaseManager().connect(email, password).then((value) {
+
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context){
+                          return const DashBoard();
+                        }
+                    ));
+
+
+                  }).catchError((onError){
+                    //afficher un pop erreur de mot de passe
+
+                  });
+                }
+                else
+                  {
+                    FirebaseManager().Inscription(email, password).then((value) {
+
+
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context){
+                            return const DashBoard();
+                          }
+                      ));
+
+                    }).catchError((onError){
+
+                      //popUp
+
+                    });
                   }
-                ));
+
 
 
                 //inscription
