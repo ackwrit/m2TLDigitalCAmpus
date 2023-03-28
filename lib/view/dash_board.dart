@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m2tldigitalcampus/controller/list_personne.dart';
 import 'package:m2tldigitalcampus/controller/my_drawer.dart';
 
 class DashBoard extends StatefulWidget {
@@ -55,7 +56,7 @@ class _DashBoardState extends State<DashBoard> {
 
   Widget bodyPage(int page){
     switch(page){
-      case 0 : return Text("First page");
+      case 0 : return const ListPersonne();
       case 1: return Text("Second page");
       default : return const Text("Mauvaise page");
     }
