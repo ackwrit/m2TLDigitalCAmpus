@@ -25,7 +25,8 @@ class FirebaseManager {
       else
         {
           Map<String,dynamic> map = {
-            "EMAIL":email
+            "EMAIL":email,
+            "FAVROIS":[]
           };
           addUser(uid!, map);
           return getUser(uid!);

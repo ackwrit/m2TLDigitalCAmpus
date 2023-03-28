@@ -13,12 +13,6 @@ class ListPersonne extends StatefulWidget {
 
 class _ListPersonneState extends State<ListPersonne> {
 
-  late List personnes;
-  @override
-  void initState() {
-    personnes = myUser.favoris??[];
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +45,19 @@ class _ListPersonneState extends State<ListPersonne> {
                         leading: CircleAvatar(radius: 20,backgroundImage: NetworkImage(otherUser.avatar??defaultImage),),
                         title: Text(otherUser.pseudo??""),
                         subtitle: Text(otherUser.email),
-                        trailing: personnes.contains(otherUser.uid)?const Icon(Icons.favorite,color: Colors.red,):IconButton(
-                          icon: const Icon(Icons.favorite),
+                        trailing: IconButton(
+                          icon: Icon(Icons.favorite,color: myUser.favoris.contains(otherUser.uid)?Colors.red:Colors.amber,),
                           onPressed: (){
+                            setState(() {
+
+                              myUser.favoris.add(otherUser.uid);
+
+
+                              Map<String,dynamic> map = {
+                                "FAVORIS": myUser.favoris,
+                              };
+                              FirebaseManager().updateUser(myUser.uid, map);
+                            });
 
                           },
                         ),
