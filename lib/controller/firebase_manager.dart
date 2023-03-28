@@ -1,4 +1,6 @@
 
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -61,7 +63,20 @@ Future <Utilisateur> connect(String email, String password) async {
 
 
 // mise à jour d'un utlisateur
+updateUser(String uid, Map<String,dynamic> map){
+    cloudUsers.doc(uid).update(map);
+}
 
 //suppression d'un utlisateur
+
+
+// Uploadd de l'image
+ Future<String> Upload(String destination,String nameImage, Uint8List bytes) async {
+    String url="";
+    TaskSnapshot snapshot = await storage.ref("$destination/$nameImage").putData(bytes);
+    url = await snapshot.ref.getDownloadURL();
+    return url;
+
+  }
 
 }

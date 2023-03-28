@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:m2tldigitalcampus/controller/firebase_manager.dart';
 import 'globale.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -50,7 +51,21 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               TextButton(
                   onPressed: (){
-                    //enregister dans la base de donnée
+                    //enregistrer dans la base de donnée
+                    FirebaseManager().Upload(myUser.uid, nameImage!, dataImage!).then((value){
+                      setState(() {
+                        urlImage = value;
+                        myUser.avatar = urlImage;
+
+                      });
+
+                      Map<String,dynamic> map = {
+                        "AVATAR" : urlImage
+                      };
+                      FirebaseManager().updateUser(myUser.uid, map);
+                      Navigator.pop(context);
+
+                    });
 
                   },
                   child: const Text("Confimration")
