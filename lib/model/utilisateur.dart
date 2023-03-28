@@ -9,6 +9,7 @@ class Utilisateur {
   String? nom;
   String? prenom;
   String? avatar;
+  List? favoris;
 
 
 
@@ -18,6 +19,7 @@ class Utilisateur {
   Utilisateur.empty(){
       uid = "";
       email = "";
+      favoris=[];
   }
 
   Utilisateur(DocumentSnapshot snapshot){
@@ -30,6 +32,7 @@ class Utilisateur {
      nom = map["NOM"];
      prenom = map["PRENOM"];
      avatar = map["AVATAR"];
+     favoris = map["FAVORIS"];
 
   }
 

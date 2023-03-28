@@ -12,6 +12,14 @@ class ListPersonne extends StatefulWidget {
 }
 
 class _ListPersonneState extends State<ListPersonne> {
+
+  late List personnes;
+  @override
+  void initState() {
+    personnes = myUser.favoris??[];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -43,7 +51,7 @@ class _ListPersonneState extends State<ListPersonne> {
                         leading: CircleAvatar(radius: 20,backgroundImage: NetworkImage(otherUser.avatar??defaultImage),),
                         title: Text(otherUser.pseudo??""),
                         subtitle: Text(otherUser.email),
-                        trailing: IconButton(
+                        trailing: personnes.contains(otherUser.uid)?const Icon(Icons.favorite,color: Colors.red,):IconButton(
                           icon: const Icon(Icons.favorite),
                           onPressed: (){
 
