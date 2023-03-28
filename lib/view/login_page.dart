@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:m2tldigitalcampus/controller/firebase_manager.dart';
+import 'package:m2tldigitalcampus/controller/globale.dart';
 import 'package:m2tldigitalcampus/view/dash_board.dart';
+import 'package:flutter/foundation.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +16,51 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //variable
   List<bool> selection = [true,false];
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+
+
+  //méhode interne
+  PopError(){
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context){
+          if(defaultTargetPlatform == TargetPlatform.iOS){
+             return CupertinoAlertDialog(
+               title: const Text("Erreur"),
+               content: Lottie.asset("assets/error.json"),
+               actions: [
+                 TextButton(
+                     onPressed: (){
+                       Navigator.pop(context);
+                     },
+                     child: const Text("OK")
+                 )
+               ],
+
+             );
+          }
+          else
+            {
+              return AlertDialog(
+                title: const Text("Erreur"),
+                content: Lottie.asset("assets/error.json"),
+                actions: [
+                  TextButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: const Text("OK")
+                  )
+                ],
+              );
+            }
+
+        }
+    );
+  }
 
 
 
@@ -80,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
 
           //adresse mail
           TextField(
+            controller: email,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.mail),
               hintText: "Entrer votre adresse mail",
@@ -94,6 +144,7 @@ class _LoginPageState extends State<LoginPage> {
 
           //password
           TextField(
+            controller: password,
             obscureText: true,
             decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.lock),
@@ -113,7 +164,11 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: (){
                 //connexion
                 if(selection[0]){
-                  FirebaseManager().connect(email, password).then((value) {
+                  FirebaseManager().connect(email.text, password.text).then((value) {
+                    setState(() {
+                      myUser = value;
+                    });
+
 
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context){
@@ -124,14 +179,16 @@ class _LoginPageState extends State<LoginPage> {
 
                   }).catchError((onError){
                     //afficher un pop erreur de mot de passe
+                    PopError();
 
                   });
                 }
                 else
                   {
-                    FirebaseManager().Inscription(email, password).then((value) {
-
-
+                    FirebaseManager().Inscription(email.text, password.text).then((value) {
+                      setState(() {
+                        myUser = value;
+                      });
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context){
                             return const DashBoard();
@@ -139,6 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                       ));
 
                     }).catchError((onError){
+                      PopError();
 
                       //popUp
 
